@@ -16,6 +16,7 @@ public class Pizza {
 	
 	public Pizza(String file) {
 		read(file);
+		System.out.println(file + ": " + this.width() + " x " + this.height());
 	}
 
 	private void read(String file) {
@@ -47,5 +48,15 @@ public class Pizza {
 		
 		
 		return slices;
+	}
+	
+	public int height()
+	{
+		return R;
+	}
+	
+	public int width()
+	{
+		return C;
 	}
 }
