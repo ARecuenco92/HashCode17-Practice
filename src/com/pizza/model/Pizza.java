@@ -46,23 +46,25 @@ public class Pizza {
 	public List<Slice> cut() {
 		List<Slice> slices = new ArrayList<Slice>();
 
-		int max = Math.min(C, H);
-		int t, m;
-		for (int r = 0; r < R; r++) {
-			t = 0;
-			m = 0;
-			for (int c = 0; c < max; c++) {
-				if (pizza[r][c] == 'T') {
-					t++;
-				} else {
-					m++;
+		int t, m, max;
+		for (int i = 0; i <= C; i= i+ H){
+			max = Math.min(C, H+i);
+			for (int r = 0; r < R; r++) {
+				t = 0;
+				m = 0;
+				for (int c = 0+i; c < max; c++) {
+					if (pizza[r][c] == 'T') {
+						t++;
+					} else {
+						m++;
+					}
+				}
+				if (t >= I && m >= I) {
+					slices.add(new Slice(r, r, 0+i, max-1));
 				}
 			}
-			if (t >= I && m >= I) {
-				slices.add(new Slice(r, r, 0, max-1));
-			}
 		}
-
+		
 		return slices;
 
 	}
