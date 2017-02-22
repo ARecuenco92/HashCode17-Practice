@@ -13,7 +13,7 @@ public class Pizza {
 	private int C;
 	private int I;
 	private int H;
-	
+
 	public Pizza(String file) {
 		read(file);
 		System.out.println(file + ": " + this.width() + " x " + this.height());
@@ -42,21 +42,36 @@ public class Pizza {
 			e.printStackTrace();
 		}
 	}
-	
-	public List<Slice> cut(){ 
+
+	public List<Slice> cut() {
 		List<Slice> slices = new ArrayList<Slice>();
-		
-		
+
+		int max = Math.min(C, H);
+		int t, m;
+		for (int r = 0; r < R; r++) {
+			t = 0;
+			m = 0;
+			for (int c = 0; c < max; c++) {
+				if (pizza[r][c] == 'T') {
+					t++;
+				} else {
+					m++;
+				}
+			}
+			if (t >= I && m >= I) {
+				slices.add(new Slice(r, r, 0, max-1));
+			}
+		}
+
 		return slices;
+
 	}
-	
-	public int height()
-	{
+
+	public int height() {
 		return R;
 	}
-	
-	public int width()
-	{
+
+	public int width() {
 		return C;
 	}
 }

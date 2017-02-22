@@ -14,6 +14,7 @@ public class Main {
 	private static void store(List<Slice> slices, String file){
 		List<String> lines = new ArrayList<String>();
 		lines.add(Integer.toString(slices.size()));
+		
 		for(Slice slice : slices){
 			lines.add(slice.toString());
 		}
@@ -33,8 +34,16 @@ public class Main {
 		files.add("medium");
 		files.add("big");
 		
+		List<Slice> slices;
+		int score = 0;
 		for(String file : files){
-			store(new Pizza("files/"+file+".in").cut(), file);
+			slices = new Pizza("files/"+file+".in").cut();
+			store(slices, file);
+			for(Slice slice : slices){
+				score += slice.getScore();
+			}
 		}
+		System.out.println();
+		System.out.println("Total score: "+score);
 	}
 }
