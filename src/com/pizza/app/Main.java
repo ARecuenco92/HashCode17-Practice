@@ -37,11 +37,14 @@ public class Main {
 		List<Slice> slices;
 		int score = 0;
 		for(String file : files){
+			int partialScore = 0;
 			slices = new Pizza("files/"+file+".in").cut();
 			store(slices, file);
 			for(Slice slice : slices){
-				score += slice.getScore();
+				partialScore += slice.getScore();
 			}
+			System.out.println(file + ": " + partialScore);
+			score += partialScore;
 		}
 		System.out.println();
 		System.out.println("Total score: "+score);
