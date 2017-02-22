@@ -45,28 +45,77 @@ public class Pizza {
 
 	public List<Slice> cut() {
 		List<Slice> slices = new ArrayList<Slice>();
+		for(int i = H; i > I*2-1; i--){
+			slices.addAll(cutRows(H));
+			slices.addAll(cutCols(H));
+		}
+		return slices;
+	}
 
-		int t, m, max;
-		for (int i = 0; i <= C; i= i+ H){
-			max = Math.min(C, H+i);
-			for (int r = 0; r < R; r++) {
-				t = 0;
-				m = 0;
-				for (int c = 0+i; c < max; c++) {
-					if (pizza[r][c] == 'T') {
-						t++;
-					} else {
-						m++;
+	private List<Slice> cutRows(int length) {
+		List<Slice> slices = new ArrayList<Slice>();
+
+		int t, m, x, max;
+		for (int s = 0; s <length; s++) {
+			for (int i = 0+s; i <= C; i = i + length) {
+				max = Math.min(C, length + i);
+				for (int r = 0; r < R; r++) {
+					t = 0;
+					m = 0;
+					x = 0;
+					for (int c = 0 + i; c < max; c++) {
+						if (pizza[r][c] == 'T') {
+							t++;
+						} else if (pizza[r][c] == 'M') {
+							m++;
+						} else{
+							x++;
+						}
 					}
-				}
-				if (t >= I && m >= I) {
-					slices.add(new Slice(r, r, 0+i, max-1));
+					if (t >= I && m >= I && x == 0) {
+						slices.add(new Slice(r, r, 0 + i, max - 1));
+						for(x = 0+i; x < max; x++){
+							pizza[r][x] = 'x';
+						}
+					}
 				}
 			}
 		}
 		
 		return slices;
+	}
+	
+	private List<Slice> cutCols(int length) {
+		List<Slice> slices = new ArrayList<Slice>();
 
+		int t, m, x, max;
+		for (int s = 0; s <length; s++) {
+			for (int i = 0+s; i <= R; i = i + length) {
+				max = Math.min(R, length + i);
+				for (int c = 0; c < C; c++) {
+					t = 0;
+					m = 0;
+					x = 0;
+					for (int r = 0 + i; r < max; r++) {
+						if (pizza[r][c] == 'T') {
+							t++;
+						} else if (pizza[r][c] == 'M') {
+							m++;
+						} else{
+							x++;
+						}
+					}
+					if (t >= I && m >= I && x == 0) {
+						slices.add(new Slice(0 + i, max - 1, c, c));
+						for(x = 0+i; x < max; x++){
+							pizza[x][c] = 'x';
+						}
+					}
+				}
+			}
+		}
+		
+		return slices;
 	}
 
 	public int height() {
@@ -75,5 +124,14 @@ public class Pizza {
 
 	public int width() {
 		return C;
+	}
+
+	private void print() {
+		for (int i = 0; i < pizza.length; i++) {
+			for (int j = 0; j < pizza[i].length; j++) {
+				System.out.print(pizza[i][j] + " ");
+			}
+			System.out.println();
+		}
 	}
 }
