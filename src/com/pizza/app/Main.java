@@ -35,18 +35,21 @@ public class Main {
 		files.add("big");
 		
 		List<Slice> slices;
-		int score = 0;
+		Pizza pizza;
+		int score = 0, partialScore, pizzaScore, maxScore = 0;
 		for(String file : files){
-			int partialScore = 0;
-			slices = new Pizza("files/"+file+".in").cut();
+			pizza = new Pizza("files/"+file+".in");
+			partialScore = 0; 
+			pizzaScore = pizza.height()*pizza.width();
+			slices = pizza.cut();
 			store(slices, file);
 			for(Slice slice : slices){
 				partialScore += slice.getScore();
 			}
-			System.out.println(file + ": " + partialScore);
+			System.out.println(file + ": " + partialScore+" / "+pizzaScore+ " = "+((float)partialScore*100/pizzaScore)+"%\n");
 			score += partialScore;
+			maxScore += pizzaScore;
 		}
-		System.out.println();
-		System.out.println("Total score: "+score);
+		System.out.println("Pizzas score: "+score+" / "+maxScore+ " = "+((float)score*100/maxScore)+"%");
 	}
 }

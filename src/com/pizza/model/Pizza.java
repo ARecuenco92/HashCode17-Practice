@@ -45,10 +45,11 @@ public class Pizza {
 
 	public List<Slice> cut() {
 		List<Slice> slices = new ArrayList<Slice>();
-		for(int i = H; i > I*2-1; i--){
-			slices.addAll(cutRows(H));
-			slices.addAll(cutCols(H));
+		for (int i = H; i > I * 2 - 1; i--) {
+			slices.addAll(cutRows(i));
+			slices.addAll(cutCols(i));
 		}
+		
 		return slices;
 	}
 
@@ -56,65 +57,61 @@ public class Pizza {
 		List<Slice> slices = new ArrayList<Slice>();
 
 		int t, m, x, max;
-		for (int s = 0; s <length; s++) {
-			for (int i = 0+s; i <= C; i = i + length) {
-				max = Math.min(C, length + i);
-				for (int r = 0; r < R; r++) {
-					t = 0;
-					m = 0;
-					x = 0;
-					for (int c = 0 + i; c < max; c++) {
-						if (pizza[r][c] == 'T') {
-							t++;
-						} else if (pizza[r][c] == 'M') {
-							m++;
-						} else{
-							x++;
-						}
+		for (int i = 0; i <= C; i++) {
+			max = Math.min(C, length + i);
+			for (int r = 0; r < R; r++) {
+				t = 0;
+				m = 0;
+				x = 0;
+				for (int c = 0 + i; c < max; c++) {
+					if (pizza[r][c] == 'T') {
+						t++;
+					} else if (pizza[r][c] == 'M') {
+						m++;
+					} else {
+						x++;
 					}
-					if (t >= I && m >= I && x == 0) {
-						slices.add(new Slice(r, r, 0 + i, max - 1));
-						for(x = 0+i; x < max; x++){
-							pizza[r][x] = 'x';
-						}
+				}
+				if (t >= I && m >= I && x == 0) {
+					slices.add(new Slice(r, r, 0 + i, max - 1));
+					for (x = 0 + i; x < max; x++) {
+						pizza[r][x] = 'x';
 					}
 				}
 			}
 		}
-		
+
 		return slices;
 	}
-	
+
 	private List<Slice> cutCols(int length) {
 		List<Slice> slices = new ArrayList<Slice>();
 
 		int t, m, x, max;
-		for (int s = 0; s <length; s++) {
-			for (int i = 0+s; i <= R; i = i + length) {
-				max = Math.min(R, length + i);
-				for (int c = 0; c < C; c++) {
-					t = 0;
-					m = 0;
-					x = 0;
-					for (int r = 0 + i; r < max; r++) {
-						if (pizza[r][c] == 'T') {
-							t++;
-						} else if (pizza[r][c] == 'M') {
-							m++;
-						} else{
-							x++;
-						}
+		for (int i = 0; i <= R; i++) {
+			max = Math.min(R, length + i);
+			for (int c = 0; c < C; c++) {
+				t = 0;
+				m = 0;
+				x = 0;
+				for (int r = 0 + i; r < max; r++) {
+					if (pizza[r][c] == 'T') {
+						t++;
+					} else if (pizza[r][c] == 'M') {
+						m++;
+					} else {
+						x++;
 					}
-					if (t >= I && m >= I && x == 0) {
-						slices.add(new Slice(0 + i, max - 1, c, c));
-						for(x = 0+i; x < max; x++){
-							pizza[x][c] = 'x';
-						}
+				}
+				if (t >= I && m >= I && x == 0) {
+					slices.add(new Slice(0 + i, max - 1, c, c));
+					for (x = 0 + i; x < max; x++) {
+						pizza[x][c] = 'x';
 					}
 				}
 			}
 		}
-		
+
 		return slices;
 	}
 
