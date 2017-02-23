@@ -45,14 +45,59 @@ public class Pizza {
 
 	public List<Slice> cut() {
 		List<Slice> slices = new ArrayList<Slice>();
+		
 		for (int i = H; i > I * 2 - 1; i--) {
 			slices.addAll(cutRows(i));
 			slices.addAll(cutCols(i));
+			slices.addAll(cutSquares(i));
 		}
 		
 		return slices;
 	}
 
+	private List<Slice> cutSquares(int length) {
+		List<Slice> slices = new ArrayList<Slice>();
+
+		int t, m, x;
+//		int s = (int) Math.sqrt(length);
+//		int s2 = (int) Math.sqrt(length);
+		int s = (int) length/2;
+		int s2 = 2;
+		if(s < 2){
+			return slices;
+		}
+				
+		for(int r = 0; r < R-s; r++){
+			for(int c = 0; c < C-s2; c++){
+				t = 0;
+				m = 0;
+				x = 0;
+				for(int i = 0; i < s; i++){
+					for(int k = 0; k < s2; k++){
+						if (pizza[r+i][c+k] == 'T') {
+							t++;
+						} else if (pizza[r+i][c+k] == 'M') {
+							m++;
+						} else {
+							
+							x++;
+						}
+					}
+				}
+				if (t >= I && m >= I && x == 0) {
+					slices.add(new Slice(r, r+s-1, c, c+s2-1));
+					for(int i = 0; i < s; i++){
+						for(int k = 0; k < s2; k++){
+							pizza[r+i][c+k] = 'x';
+						}
+					}
+				}
+			}
+		}
+		
+		return slices;
+	}
+	
 	private List<Slice> cutRows(int length) {
 		List<Slice> slices = new ArrayList<Slice>();
 
